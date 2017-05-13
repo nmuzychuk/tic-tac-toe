@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        td {
+            width: 200px;
+            height: 200px;
+
+            cursor: pointer;
+
+            text-align: center;
+            font-size: 150px;
+        }
+
+        #message {
+            text-align: center;
+        }
+
+        #grid {
+            margin: 0 auto;
+        }
+
+        #grid td {
+            border: 1px solid black;
+        }
+
+        #restart {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tic Tac Toe</h1>
+    <p id="message"></p>
+    <table id="grid">
+        <tbody>
+            <tr>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+            </tr>
+            <tr>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+            </tr>
+            <tr>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+                <td onclick="makeMove(this)"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p id="restart"><button onclick="restartGame()" type="button">Restart</button></p>
+
+    <script>
+        var currentPlayer = 'X';
+
+        var startGame = function () {
+            setMessage('Game started. Current player is ' + currentPlayer);
+        };
+
+        var setMessage = function (message) {
+            document.getElementById('message').innerText = message;
+        };
+
+        var makeMove = function (element) {
+            setPosition(element, currentPlayer);
+        };
+
+        var setPosition = function (element, player) {
+            element.innerText = player;
+        };
+
+        var restartGame = function () {
+            console.log('game restarted');
+        };
+
+        (function () {
+            startGame();
+        })();
+    </script>
+</body>
+
+</html>
