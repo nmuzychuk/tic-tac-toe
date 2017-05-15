@@ -8,13 +8,13 @@
         }
 
         td {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
 
             cursor: pointer;
 
             text-align: center;
-            font-size: 150px;
+            font-size: 120px;
         }
 
         #message {
@@ -58,10 +58,16 @@
         </tbody>
     </table>
 
-    <p id="restart"><button onclick="restartGame()" type="button">Restart</button></p>
+    <p id="restart">
+        <button onclick="restartGame()" type="button">Restart game</button>
+    </p>
 
     <script>
-        var currentPlayer = 'X';
+        var PlayerX = 'X';
+        var PlayerO = 'O';
+        var currentPlayer = PlayerX;
+
+        var winner = '';
 
         var startGame = function () {
             setMessage('Game started. Current player is ' + currentPlayer);
@@ -72,15 +78,76 @@
         };
 
         var makeMove = function (element) {
-            setPosition(element, currentPlayer);
+            element.onclick = null;
+            element.innerText = currentPlayer;
+
+            if (checkMove()) {
+                return;
+            }
+
+            switchPlayer();
+            setMessage('Current player is ' + currentPlayer);
         };
 
-        var setPosition = function (element, player) {
-            element.innerText = player;
+        var checkMove = function () {
+            var elements = document.getElementsByTagName('tr');
+
+            if (checkWin(elements)) {
+                winner = currentPlayer;
+                endGame();
+
+                return true;
+            }
+
+            if (checkFull(elements)) {
+                endGame();
+
+                return true;
+            }
+
+            return false;
+        };
+
+        var checkWin = function (elements) {
+
+            return false;
+
+            // checkRows();
+            // checkColumns();
+            // checkDiagonal();
+        };
+
+        var checkFull = function (elements) {
+            for (var i = 0; i < 3; i++) {
+                for (var j = 0; j < 3; j++) {
+                    if (!elements[i].children[j].innerText) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        };
+
+        var switchPlayer = function () {
+            if (currentPlayer == PlayerX) {
+                currentPlayer = PlayerO;
+            } else {
+                currentPlayer = PlayerX;
+            }
+        };
+
+        var endGame = function () {
+            // TODO: block grid
+            if (winner) {
+                setMessage('Winner is ' + winner);
+            } else {
+                setMessage('Draw');
+            }
         };
 
         var restartGame = function () {
-            console.log('game restarted');
+            location.reload();
         };
 
         (function () {
