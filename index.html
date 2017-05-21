@@ -19,6 +19,7 @@
 
         #message {
             text-align: center;
+            background-color: cyan;
         }
 
         #grid {
@@ -38,22 +39,31 @@
 <body>
     <h1>Tic Tac Toe</h1>
     <p id="message"></p>
+
+    <p id='options' style="text-align: center">
+        <label for="opponent">Opponent</label>
+        <select id="opponent" onchange="setOpponent(this)">
+            <option value="ai">AI</option>
+            <option value="human">Human</option>
+        </select>
+    </p>
+
     <table id="grid">
         <tbody>
             <tr>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
+                <td id="pos1" onclick="makeMoveHuman(this)"></td>
+                <td id="pos2" onclick="makeMoveHuman(this)"></td>
+                <td id="pos3" onclick="makeMoveHuman(this)"></td>
             </tr>
             <tr>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
+                <td id="pos4" onclick="makeMoveHuman(this)"></td>
+                <td id="pos5" onclick="makeMoveHuman(this)"></td>
+                <td id="pos6" onclick="makeMoveHuman(this)"></td>
             </tr>
             <tr>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
-                <td onclick="makeMove(this)"></td>
+                <td id="pos7" onclick="makeMoveHuman(this)"></td>
+                <td id="pos8" onclick="makeMoveHuman(this)"></td>
+                <td id="pos9" onclick="makeMoveHuman(this)"></td>
             </tr>
         </tbody>
     </table>
@@ -66,41 +76,85 @@
         var PlayerX = 'X';
         var PlayerO = 'O';
         var currentPlayer = PlayerX;
+        var opponent = 'ai';
 
         var winner = '';
 
         var startGame = function () {
-            setMessage('Game started. Current player is ' + currentPlayer);
+            setMessage('Current player is ' + currentPlayer);
         };
 
         var setMessage = function (message) {
             document.getElementById('message').innerText = message;
         };
 
-        var makeMove = function (element) {
+        var makeMoveHuman = function (element) {
             element.onclick = null;
             element.innerText = currentPlayer;
 
-            if (checkMove()) {
-                return;
-            }
+            hideOptions();
+
+            if (isEnd()) { return; }
 
             switchPlayer();
-            setMessage('Current player is ' + currentPlayer);
+
+            if (opponent == 'ai') {
+                makeMoverAI();
+            };
         };
 
-        var checkMove = function () {
+        var makeMoverAI = function () {
+            var attempt = 0;
+            var positions = [];
+
+            for (var i = 1; i < 10; i++) {
+                positions.push(i);
+            }
+
+            shuffle(positions);
+
+            for (var i = 0; i < positions.length; i++) {
+                element = document.getElementById('pos' + positions[i]);
+
+                if (!element.innerText) {
+                    element.onclick = null;
+                    element.innerText = currentPlayer;
+
+                    if (isEnd()) { return; }
+
+                    switchPlayer();
+                    break;
+                }
+            }
+        };
+
+        function shuffle(array) {
+            var counter = array.length;
+
+            while (counter > 0) {
+                var i = Math.floor(Math.random() * counter);
+                counter--;
+
+                var temp = array[counter];
+                array[counter] = array[i];
+                array[i] = temp;
+            }
+
+            return array;
+        }
+
+        var isEnd = function () {
             var elements = document.getElementsByTagName('tr');
 
-            if (checkWin(elements)) {
+            if (isWin(elements)) {
                 winner = currentPlayer;
-                endGame();
+                endGame(elements);
 
                 return true;
             }
 
-            if (checkFull(elements)) {
-                endGame();
+            if (isFull(elements)) {
+                endGame(elements);
 
                 return true;
             }
@@ -108,16 +162,54 @@
             return false;
         };
 
-        var checkWin = function (elements) {
+        var isWin = function (elements) {
+
+            for (var i = 0; i < 3; i++) {
+                // Check rows
+                if (elements[i].children[0].innerText &&
+                    elements[i].children[1].innerText &&
+                    elements[i].children[2].innerText) {
+                    if (elements[i].children[0].innerText == elements[i].children[1].innerText &&
+                        elements[i].children[0].innerText == elements[i].children[2].innerText) {
+                        return true;
+                    }
+                };
+
+                // Check columns
+                if (elements[0].children[i].innerText &&
+                    elements[1].children[i].innerText &&
+                    elements[2].children[i].innerText) {
+                    if (elements[0].children[i].innerText == elements[1].children[i].innerText &&
+                        elements[0].children[i].innerText == elements[2].children[i].innerText) {
+                        return true;
+                    }
+                };
+            }
+
+            // Check diagonal forward
+            if (elements[0].children[0].innerText &&
+                elements[1].children[1].innerText &&
+                elements[2].children[2].innerText) {
+                if (elements[0].children[0].innerText == elements[1].children[1].innerText &&
+                    elements[0].children[0].innerText == elements[2].children[2].innerText) {
+                    return true;
+                }
+            };
+
+            // Check diagonal reverse
+            if (elements[0].children[2].innerText &&
+                elements[1].children[1].innerText &&
+                elements[2].children[0].innerText) {
+                if (elements[0].children[2].innerText == elements[1].children[1].innerText &&
+                    elements[0].children[2].innerText == elements[2].children[0].innerText) {
+                    return true;
+                }
+            };
 
             return false;
-
-            // checkRows();
-            // checkColumns();
-            // checkDiagonal();
         };
 
-        var checkFull = function (elements) {
+        var isFull = function (elements) {
             for (var i = 0; i < 3; i++) {
                 for (var j = 0; j < 3; j++) {
                     if (!elements[i].children[j].innerText) {
@@ -129,20 +221,38 @@
             return true;
         };
 
+        var hideOptions = function () {
+            var options = document.getElementById('options');
+            options.style.visibility = 'hidden';
+        };
+
         var switchPlayer = function () {
             if (currentPlayer == PlayerX) {
                 currentPlayer = PlayerO;
             } else {
                 currentPlayer = PlayerX;
             }
+
+            setMessage('Current player is ' + currentPlayer);
         };
 
-        var endGame = function () {
-            // TODO: block grid
+        var setOpponent = function (selectObject) {
+            opponent = selectObject.value;
+        };
+
+        var endGame = function (elements) {
+            for (var i = 0; i < 3; i++) {
+                for (var j = 0; j < 3; j++) {
+                    elements[i].children[j].onclick = null;
+                }
+            }
+
             if (winner) {
-                setMessage('Winner is ' + winner);
+                setMessage('The winner is ' + winner);
+                document.getElementById('message').style.backgroundColor = "lime";
             } else {
                 setMessage('Draw');
+                document.getElementById('message').style.backgroundColor = "yellow";
             }
         };
 
