@@ -73,6 +73,36 @@
     </p>
 
     <script>
+        var board = [0, 1, 'X', 3, 4, 5, 'O', 7, 8];
+
+        var getTable = function (board) {
+            table = document.createElement('table');
+            table.id = 'grid';
+
+            tbody = document.createElement('tbody');
+            table.appendChild(tbody);
+
+            for (var i = 0; i < 9; i++) {
+                if (i % 3 == 0) {
+                    tr = document.createElement('tr');
+                    tbody.appendChild(tr);
+                }
+
+                var td = document.createElement('td');
+                td.onclick = function () {
+                    console.log(this);
+                };
+
+                if (board[i] == 'X' || board[i] == 'O') {
+                    td.innerText = board[i];
+                }
+
+                tr.appendChild(td);
+            }
+
+            return table;
+        };
+
         var PlayerX = 'X';
         var PlayerO = 'O';
         var currentPlayer = PlayerX;
