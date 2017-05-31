@@ -1,13 +1,11 @@
 # Tic Tac Toe
 
 ## Overview
-Tic tac toe implementation with the following features:
-- Single HTML file
+Tic tac toe implementation. Features:
 - Plaint JavaScript
 - Minimal style
 - Configurable opponent
 
-## Github pages
 https://nmuzychuk.github.io/tic-tac-toe/
 
 ## License

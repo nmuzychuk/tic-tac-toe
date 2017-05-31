@@ -1,0 +1,30 @@
+h1 {
+    text-align: center;
+}
+
+td {
+    width: 150px;
+    height: 150px;
+
+    cursor: pointer;
+
+    text-align: center;
+    font-size: 120px;
+}
+
+#message {
+    text-align: center;
+    background-color: cyan;
+}
+
+#grid {
+    margin: 0 auto;
+}
+
+#grid td {
+    border: 1px solid black;
+}
+
+#restart {
+    text-align: center;
+}
