@@ -6,42 +6,42 @@
 </head>
 
 <body>
-    <h1>Tic Tac Toe</h1>
-    <p id="message"></p>
+<h1>Tic Tac Toe</h1>
+<p id="message"></p>
 
-    <p id='options' style="text-align: center">
-        <label for="opponent">Opponent</label>
-        <select id="opponent" onchange="setOpponent(this)">
-            <option value="ai">AI</option>
-            <option value="human">Human</option>
-        </select>
-    </p>
+<p id='options' style="text-align: center">
+    <label for="opponent">Opponent</label>
+    <select id="opponent" onchange="Opponent.setType(this.value)">
+        <option value="ai">AI</option>
+        <option value="human">Human</option>
+    </select>
+</p>
 
-    <table id="grid">
-        <tbody>
-            <tr>
-                <td id="pos1" onclick="makeMoveHuman(this)"></td>
-                <td id="pos2" onclick="makeMoveHuman(this)"></td>
-                <td id="pos3" onclick="makeMoveHuman(this)"></td>
-            </tr>
-            <tr>
-                <td id="pos4" onclick="makeMoveHuman(this)"></td>
-                <td id="pos5" onclick="makeMoveHuman(this)"></td>
-                <td id="pos6" onclick="makeMoveHuman(this)"></td>
-            </tr>
-            <tr>
-                <td id="pos7" onclick="makeMoveHuman(this)"></td>
-                <td id="pos8" onclick="makeMoveHuman(this)"></td>
-                <td id="pos9" onclick="makeMoveHuman(this)"></td>
-            </tr>
-        </tbody>
-    </table>
+<table id="grid">
+    <tbody>
+    <tr>
+        <td id="pos1" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos2" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos3" onclick="GameHelper.makeMoveHuman(this)"></td>
+    </tr>
+    <tr>
+        <td id="pos4" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos5" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos6" onclick="GameHelper.makeMoveHuman(this)"></td>
+    </tr>
+    <tr>
+        <td id="pos7" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos8" onclick="GameHelper.makeMoveHuman(this)"></td>
+        <td id="pos9" onclick="GameHelper.makeMoveHuman(this)"></td>
+    </tr>
+    </tbody>
+</table>
 
-    <p id="restart">
-        <button onclick="restartGame()" type="button">Restart game</button>
-    </p>
+<p id="restart">
+    <button onclick="GameMenu.restartGame()" type="button">Restart game</button>
+</p>
 
-    <script src="javascript.js"></script>
+<script src="javascript.js"></script>
 </body>
 
 </html>
